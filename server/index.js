@@ -11,7 +11,8 @@ const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
 module.exports = app
-
+console.log('db.models inside of index.js', db.models)
+console.log('db.models.user inside of index.js', db.models.user)
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
 if (process.env.NODE_ENV === 'test') {
@@ -33,7 +34,7 @@ passport.serializeUser((user, done) => done(null, user.id))
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await db.models.user.findById(id)
+    const user = await db.models.user.findByPk(id)
     done(null, user)
   } catch (err) {
     done(err)
